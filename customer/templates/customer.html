@@ -1,0 +1,187 @@
+{% extends "index.html" %}
+
+{% block title %}
+cliente
+{% endblock  %}
+
+{% block content  %}
+
+{% load static %}
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCustomer" >
+    Agregar Cliente
+  </button>
+
+  
+  
+  <!-- Modal Agregar Cliente -->
+  <div class="modal fade" id="addCustomer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">d
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Agregar Cliente</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/addCustomer/" method='post' enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class='row'>
+                <div class='col'>
+                    <label for="name" class='form-label'>Nombre</label>
+                    <input type="text" name='addCustomer' id='addCustomer' class='form-control' placeholder='Digite su nombre'>
+
+                    <label for="lastname" class='form-label'>Apellido</label>
+                    <input type="text" name='addlastName' id='addlastName' class='form-control' placeholder='Digite su apellido'>
+
+                    <label for="phone" class='form-label'>Telefono</label>
+                    <input type="number" name='addPhone' id='addPhone' class='form-control' placeholder='829-543-0062'>
+
+                </div>
+
+                <div class='col'>
+                    <label for="address" class='form-label'>Dirección</label>
+                    <input type="text" name='addAddress' id='addAddress' class='form-control' placeholder='Digite su dirección'> 
+
+                    <label for="image" class='form-label'>Image</label> <br>
+                    <input type="file" name='image' id='image' class='form-file'>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- Edit cliente -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Editar Cliente</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/editCustomer/" method='post'>
+            {% csrf_token %}
+            <div class='row'>
+              <div class='col'>
+                <input type="number" name='idCodigo' id='idCodigo' style='display: none;'>
+  
+          <label for="editName" class='form-label'>Cliente</label>
+          <input type="text" name='editCustomer' id='editCustomer' class='form-control'>
+  
+          <label for="editApellido" class='form-label'>Apellido</label>
+          <input type="text" name='editlastName' id='editlastName' class='form-control'>
+  
+          </div>
+  
+          <div class='col'>
+            <label for="editPhone" class='editPhone'>Telefono</label>
+            <input type="number" name='editPhone' id='editPhone' class='form-control'>
+  
+            <label for="editAddress" class='form-label'>Dirección</label>
+            <input type="text" name='editAddress' id='editAddress' class='form-control'>
+
+          </div>
+  
+            </div>
+  
+            <div class="modal-footer">
+  
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success">Actualizar</button>
+            </div>
+          </form>
+          
+        </div>
+  
+        
+        
+      </div>
+    </div>
+  </div>
+  
+
+
+
+  <table id='customer'>
+    <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Telefono</th>
+        <th>Dirección</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+    </tr>
+
+
+    <tbody>
+        {% for customer in customers  %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{customer.name}}</td>
+            <td>{{customer.lastName}}</td>
+            <td>{{customer.phone}}</td>
+            <td>{{customer.address}}</td>
+            <td>
+              {% if customer.image %}
+              <img src="{{ customer.image.url }}" alt="{{ customer.name }} {{ customer.lastName }}"
+                  style="max-width: 115px; max-height: 115px;">
+              {% else %}
+              Sin imagen
+              {% endif %}
+          </td>
+
+          <td>
+
+            <button
+            onclick="editCustomer('{{customer.codigo}}','{{customer.name}}','{{customer.lastName}}','{{customer.phone}}','{{customer.address}}')"
+             type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+              class="bi bi-pencil" viewBox="0 0 16 16"><path
+                                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+              </svg>
+            </button>
+
+           
+
+            <a href="deleteCustomer/{{customer.codigo}}" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg"
+              width="28" height="28" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+              <path
+                  d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+          </svg></a>
+          </td>
+            
+        </tr>
+        
+        
+        {% endfor %}
+       
+    </tbody>
+
+
+
+    <script src='{% static "js/editcustomer.js" %}'></script>
+
+</table>
+
+
+
+<script src='{% static "js/editcustomer.js" %}'></script>
+  {% endblock  %}
+
