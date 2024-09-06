@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from customer.views import customer
 from customer.views import addCustomer
 from customer.views import deleteCustomer
@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+    path('',include('servicio.urls')),
     path('customer/',customer,name='customer'),
     path('addCustomer/',addCustomer,name='addCustomer'),
     path('customer/deleteCustomer/<int:codigo>',deleteCustomer,name='deleteCustomer'),

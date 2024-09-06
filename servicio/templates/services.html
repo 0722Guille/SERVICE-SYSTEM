@@ -1,0 +1,102 @@
+{% extends "index.html" %}
+
+
+{% block title  %}
+Servicio
+{% endblock  %}
+
+{% block content  %}
+{% load static %}
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Agregar Servicio
+  </button>
+
+
+  <!-- Modal Agregar Servicio-->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Agregar Servicio</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <form action="/addServices/" method='POST'>
+          {% csrf_token %}
+            <div class='row'>
+                <div class='col'>
+                    <label for="nameServices" class='form-label'>Servicio</label>
+                    <select class="form-select" aria-label="Default select example" name='nameServices' id='nameServices'>
+                      <option selected>--Seleccione el Servicio--</option>
+                      <option value="Netflix">Netflix</option>
+                      <option value="Disney+">Disney</option>
+                      <option value="AmazonPrime">Amazon Prime</option>
+                      <option value="HBOMAX">HBO MAX</option>
+                    </select>
+
+                    <label for="descriptionServices">Descripción</label>
+                    <input type="text" name='descriptionServices' id='descriptionServices' class='form-control' placeholder='Pantallas'>
+
+                    <label for="gmail" class='form-label'>Correo</label>
+                    <input type="email" class='form-control' name='gmailServicesgmail' id='gmailServicesgmail' placeholder='0722guillermo@gmail.com'>
+
+
+                    <label for="prince">Precio</label>
+                    <input type="number" class='form-control' name='princeServices' id='princeServices' placeholder='250.00'>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success">Guadar</button>
+            </div>
+         </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+ <br> <br>
+
+
+    <table id='services'>
+    <tr>
+      <th>#</th>
+      <th>Servicio</th>
+      <th>Pantalla</th>
+      <th>Correo</th>
+      <th>Precio</th>
+      <th>Acciones</th>
+    </tr>
+
+    <tbody>
+      {% for service in services  %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{service.nameServices}}</td>
+        <td>{{service.descriptionServices}}</td>
+        <td>{{service.gmailServicesgmail}}</td>
+        <td>{{service.princeServices}}</td>
+        <td> 
+
+          <a href="deleteService/{{service.codigoServices}}" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg"
+            width="28" height="28" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+            <path
+                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+        </svg></a>
+        </td>
+
+      </tr>
+     
+      {% endfor %}
+
+    </tbody>
+  </table>
+
+
+{% endblock  %}

@@ -1,0 +1,47 @@
+#services{
+    border-collapse: collapse;
+    width: 100%;
+    padding: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+/* Estilo de la cabezera */
+#services th,td{
+    padding: 12px 15px;
+    text-align: center;
+}
+
+/* Color para la cabezera */
+
+#services th{
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
+}
+
+
+/* Color altenativo para la filas */
+
+#services tbody tr:nth-child(even){
+    background-color: #f3f3f3;
+}
+
+#services tbody tr:hover{
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+#services th,td{
+    border-bottom: 1px solid #dddddd;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+  }
+
+
+
+
+
